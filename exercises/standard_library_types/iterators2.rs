@@ -12,7 +12,7 @@ pub fn capitalize_first(input: &str) -> String {
     let mut c = input.chars();
     match c.next() {
         None => String::new(),
-        Some(first) => first.to_uppercase().nth(0).unwrap().to_string() + &c.as_str().to_string(),
+        Some(first) => first.to_uppercase().to_string() + c.as_str(),
     }
 }
 
