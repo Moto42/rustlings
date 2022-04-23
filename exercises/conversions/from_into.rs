@@ -36,7 +36,21 @@ impl Default for Person {
 // I AM NOT DONE
 
 impl From<&str> for Person {
-    fn from(s: &str) -> Person {
+    fn from(per_string: &str) -> Person {
+        if per_string.len() == 0 {
+            return Person::default()
+        }
+        else {
+            let mut per_string_split = per_string.split(',');
+            let per_name_option = per_string_split.next();
+            match per_name_option{
+                None => Person::default(),
+                Some(per_name_string) if per_name_string == "" => Person::default(),
+                Some(per_name_string) => {
+                    Person::default()
+                },
+            }
+        }
     }
 }
 
