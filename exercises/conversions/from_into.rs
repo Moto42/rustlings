@@ -38,7 +38,10 @@ impl Default for Person {
 impl From<&str> for Person {
     fn from(per_string: &str) -> Person {
         if per_string.len() == 0 {
-            return Person::default()
+            Person::default()
+        }
+        else if per_string.matches(',').count() != 1 {
+            Person::default()
         }
         else {
             let mut per_string_split = per_string.split(',');
@@ -47,7 +50,15 @@ impl From<&str> for Person {
                 None => Person::default(),
                 Some(per_name_string) if per_name_string == "" => Person::default(),
                 Some(per_name_string) => {
-                    Person::default()
+                    if let Some(age_result) = per_string_split.next() {
+                        if let Ok(age) = age_result.parse::<usize>() {
+                            Person{name: per_name_string.to_string(), age: age}
+                        } else {
+                            Person::default()
+                        }
+                    } else {
+                        Person::default()
+                    }
                 },
             }
         }
