@@ -26,6 +26,12 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
+macro_rules! person_default {
+    () => {
+        Person{name: String::from("Def Alt"), age: 0}
+    };
+}
+
 // I AM NOT DONE
 
 // Steps:
@@ -41,6 +47,11 @@ enum ParsePersonError {
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.len() == 0 { 
+            Err(ParsePersonError::Empty) 
+        } else {
+            Ok(person_default!())
+        }
     }
 }
 
