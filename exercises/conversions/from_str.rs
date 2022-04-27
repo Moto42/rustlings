@@ -26,10 +26,9 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
-macro_rules! person_default {
-    () => {
-        Person{name: String::from("Def Alt"), age: 0}
-    };
+macro_rules! person {
+    () => { Person{name: String::from("Def Alt"), age: 0} };
+    ($name:expr, $age:expr) => { Person{name: String::from($name), age: $age} }; 
 }
 
 // I AM NOT DONE
@@ -49,8 +48,11 @@ impl FromStr for Person {
     fn from_str(s: &str) -> Result<Person, Self::Err> {
         if s.len() == 0 { 
             Err(ParsePersonError::Empty) 
+        } else if s.matches(',').count() > 1{
+            Err(ParsePersonError::BadLen)
         } else {
-            Ok(person_default!())
+            let s_split = s.split(',');
+            Ok(person!())
         }
     }
 }
