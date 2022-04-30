@@ -66,7 +66,10 @@ impl TryFrom<&[i16]> for Color {
         if slice.len() != 3 {
             Err(IntoColorError::BadLen)
         } else {
-            Ok(color!())
+            let red:u8   = slice[0].try_into().map_err(|_| IntoColorError::IntConversion)?;
+            let green:u8 = slice[1].try_into().map_err(|_| IntoColorError::IntConversion)?;
+            let blue:u8  = slice[2].try_into().map_err(|_| IntoColorError::IntConversion)?;
+            Ok(color!(red,green,blue))
         }
     }
 }
