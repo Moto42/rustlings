@@ -63,7 +63,11 @@ impl <T: TryInto<u8> + Copy> TryFrom<[T; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
-        todo!()
+        if slice.len() != 3 {
+            Err(IntoColorError::BadLen)
+        } else {
+            Ok(color!())
+        }
     }
 }
 
@@ -193,13 +197,11 @@ mod tests {
         );
     }
     #[test]
-    #[ignore]
     fn test_slice_excess_length() {
         let v = vec![0, 0, 0, 0];
         assert_eq!(Color::try_from(&v[..]), Err(IntoColorError::BadLen));
     }
     #[test]
-    #[ignore]
     fn test_slice_insufficient_length() {
         let v = vec![0, 0];
         assert_eq!(Color::try_from(&v[..]), Err(IntoColorError::BadLen));
