@@ -52,7 +52,10 @@ impl <T: TryInto<u8>> TryFrom<(T, T, T)> for Color {
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
-        todo!()
+        let red:u8   = arr[0].try_into().map_err(|_| IntoColorError::IntConversion)?;
+        let green:u8 = arr[1].try_into().map_err(|_| IntoColorError::IntConversion)?;
+        let blue:u8  = arr[2].try_into().map_err(|_| IntoColorError::IntConversion)?;
+        Ok(color!(red,green,blue))
     }
 }
 
