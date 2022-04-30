@@ -38,12 +38,12 @@ enum IntoColorError {
 // Also note that correct RGB color values must be integers in the 0..=255 range.
 
 // Tuple implementation
-impl TryFrom<(i16, i16, i16)> for Color {
+impl <T: TryInto<u8>> TryFrom<(T, T, T)> for Color {
     type Error = IntoColorError;
-    fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
-        let red   = u8::try_from(tuple.0).map_err(|_| IntoColorError::IntConversion)?;
-        let green = u8::try_from(tuple.1).map_err(|_| IntoColorError::IntConversion)?;
-        let blue  = u8::try_from(tuple.2).map_err(|_| IntoColorError::IntConversion)?;
+    fn try_from(tuple: (T, T, T)) -> Result<Self, Self::Error> {
+        let red:u8   = tuple.0.try_into().map_err(|_| IntoColorError::IntConversion)?;
+        let green:u8 = tuple.1.try_into().map_err(|_| IntoColorError::IntConversion)?;
+        let blue:u8  = tuple.2.try_into().map_err(|_| IntoColorError::IntConversion)?;
         Ok(color!(red, green, blue))
     }
 }
