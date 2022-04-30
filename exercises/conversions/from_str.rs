@@ -7,6 +7,7 @@
 use std::num::ParseIntError;
 use std::str::FromStr;
 
+
 #[derive(Debug, PartialEq)]
 struct Person {
     name: String,
@@ -26,12 +27,11 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
+// for making default people in debugging, and to I stop making typos when returning Persons
 macro_rules! person {
     () => { Person{name: String::from("Def Alt"), age: 0} };
     ($name:expr, $age:expr) => { Person{name: String::from($name), age: $age} }; 
 }
-
-// I AM NOT DONE
 
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
@@ -48,11 +48,20 @@ impl FromStr for Person {
     fn from_str(s: &str) -> Result<Person, Self::Err> {
         if s.len() == 0 { 
             Err(ParsePersonError::Empty) 
-        } else if s.matches(',').count() > 1{
+        } else if s.matches(',').count() != 1{
             Err(ParsePersonError::BadLen)
         } else {
-            let s_split = s.split(',');
-            Ok(person!())
+            let mut s_split = s.split(',');
+            let name = s_split.next().ok_or(ParsePersonError::NoName)?;
+            if name.is_empty() {
+                Err(ParsePersonError::NoName)
+            } else {
+                let age_result = s_split.next().unwrap().parse();
+                match age_result {
+                    Err(e) => Err(ParsePersonError::ParseInt(e)),
+                    Ok(age)  => Ok(person!(name, age)),
+                }
+            }
         }
     }
 }
