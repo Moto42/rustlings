@@ -49,9 +49,9 @@ impl <T: TryInto<u8>> TryFrom<(T, T, T)> for Color {
 }
 
 // Array implementation
-impl TryFrom<[i16; 3]> for Color {
+impl <T: TryInto<u8> + Copy> TryFrom<[T; 3]> for Color {
     type Error = IntoColorError;
-    fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+    fn try_from(arr: [T; 3]) -> Result<Self, Self::Error> {
         let red:u8   = arr[0].try_into().map_err(|_| IntoColorError::IntConversion)?;
         let green:u8 = arr[1].try_into().map_err(|_| IntoColorError::IntConversion)?;
         let blue:u8  = arr[2].try_into().map_err(|_| IntoColorError::IntConversion)?;
