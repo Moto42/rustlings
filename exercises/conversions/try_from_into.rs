@@ -151,7 +151,7 @@ mod tests {
         );
     }
     #[test]
-    #[ignore]
+
     fn test_slice_out_of_range_positive() {
         let arr = [10000, 256, 1000];
         assert_eq!(
@@ -160,7 +160,7 @@ mod tests {
         );
     }
     #[test]
-    #[ignore]
+
     fn test_slice_out_of_range_negative() {
         let arr = [-256, -1, -10];
         assert_eq!(
@@ -169,7 +169,7 @@ mod tests {
         );
     }
     #[test]
-    #[ignore]
+
     fn test_slice_sum() {
         let arr = [-1, 255, 255];
         assert_eq!(
@@ -178,7 +178,7 @@ mod tests {
         );
     }
     #[test]
-    #[ignore]
+
     fn test_slice_correct() {
         let v = vec![183, 65, 14];
         let c: Result<Color, _> = Color::try_from(&v[..]);
