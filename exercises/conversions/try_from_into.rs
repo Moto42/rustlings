@@ -86,7 +86,6 @@ fn main() {
 mod tests {
     use super::*;
 
-    #[test]
     fn test_tuple_out_of_range_positive() {
         assert_eq!(
             Color::try_from((256, 1000, 10000)),
@@ -121,25 +120,21 @@ mod tests {
         );
     }
     #[test]
-    #[ignore]
     fn test_array_out_of_range_positive() {
         let c: Result<Color, _> = [1000, 10000, 256].try_into();
         assert_eq!(c, Err(IntoColorError::IntConversion));
     }
     #[test]
-    #[ignore]
     fn test_array_out_of_range_negative() {
         let c: Result<Color, _> = [-10, -256, -1].try_into();
         assert_eq!(c, Err(IntoColorError::IntConversion));
     }
     #[test]
-    #[ignore]
     fn test_array_sum() {
         let c: Result<Color, _> = [-1, 255, 255].try_into();
         assert_eq!(c, Err(IntoColorError::IntConversion));
     }
     #[test]
-    #[ignore]
     fn test_array_correct() {
         let c: Result<Color, _> = [183, 65, 14].try_into();
         assert!(c.is_ok());
